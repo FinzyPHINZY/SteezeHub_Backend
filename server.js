@@ -7,6 +7,7 @@ const connectDB = require("./config/database");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const productRoutes = require("./routes/productRoutes");
+const { callbackify } = require("util");
 const PORT = process.env.PORT;
 
 const app = express();
@@ -15,10 +16,21 @@ const app = express();
 connectDB();
 
 app.set("view engine", "ejs");
+
+// List of allowed origins
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+
 // Middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
