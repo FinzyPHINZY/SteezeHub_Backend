@@ -6,8 +6,6 @@ module.exports = {
   getProducts: async (req, res) => {
     const products = await Product.find();
 
-    console.log(products);
-
     res.json({
       success: true,
       data: products,
@@ -17,7 +15,6 @@ module.exports = {
   addProduct: async (req, res) => {
     // const result = await cloudinary.uploader.upload(req.file.path);
 
-    console.log(req.body);
     try {
       const product = new Product({
         id: uuidv4(),

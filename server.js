@@ -2,7 +2,6 @@ require("dotenv").config({ path: "./config/.env" });
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const connectDB = require("./config/database");
 const homeRoutes = require("./routes/homeRoutes");
@@ -15,6 +14,7 @@ const app = express();
 // Connect to Database
 connectDB();
 
+app.set("view engine", "ejs");
 // Middlewares
 app.use(
   cors({
@@ -26,7 +26,7 @@ app.use(
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(morgan("tiny"));
+app.use(morgan("common"));
 
 app.use("/", homeRoutes);
 app.use("/upload", uploadRoutes);

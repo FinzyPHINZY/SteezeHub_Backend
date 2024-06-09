@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SteezeHub Backend API Documentation</title>
+  </head>
+  <body>
+    <h1>SteezeHub Backend API Documentation</h1>
+
+    <h2>Base URL</h2>
+
+    <pre><code>http://localhost:3000/api
+</code></pre>
+
+    <h2>Endpoints</h2>
+
+    <h3>1. List All Products</h3>
+
+    <p>
+      <strong>Endpoint:</strong> <code>/products</code><br />
+      <strong>Method:</strong> <code>GET</code><br />
+      <strong>Description:</strong> Retrieves a list of all products.
+    </p>
+
+    <p><strong>Response:</strong></p>
+
+    <pre><code>{
+  [
+    {
+      "id": "1",
+      "title": "Men's Casual Shirt",
+      "category": "men",
+      "old_price": 30.0,
+      "new_price": 25.0
+    },
+    {
+      "id": "2",
+      "title": "Women's Summer Dress",
+      "category": "women",
+      "old_price": 45.0,
+      "new_price": 40.0
+    }
+    // more products
+  ]
+}
+</code></pre>
+
+    <h3>2. Get Product by ID</h3>
+
+    <p>
+      <strong>Endpoint:</strong> <code>/products/{id}</code><br />
+      <strong>Method:</strong> <code>GET</code><br />
+      <strong>Description:</strong> Retrieves details of a product by its ID.
+    </p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code>id</code> (string, required): The ID of the product.</li>
+    </ul>
+
+    <p><strong>Response:</strong></p>
+
+    <pre><code>{
+  "id": "1",
+  "title": "Men's Casual Shirt",
+  "category": "men",
+  "old_price": 30.0,
+  "new_price": 25.0
+}
+</code></pre>
+
+    <h3>3. Create a New Product</h3>
+
+    <p>
+      <strong>Endpoint:</strong> <code>/products</code><br />
+      <strong>Method:</strong> <code>POST</code><br />
+      <strong>Description:</strong> Creates a new product.
+    </p>
+
+    <p><strong>Request Body:</strong></p>
+
+    <pre><code>{
+  "title": "New Product",
+  "category": "men",
+  "old_price": 50.0,
+  "new_price": 45.0
+}
+</code></pre>
+
+    <p><strong>Response:</strong></p>
+
+    <pre><code>{
+  "id": "3",
+  "title": "New Product",
+  "category": "men",
+  "old_price": 50.0,
+  "new_price": 45.0,
+  "message": "Product created successfully"
+}
+</code></pre>
+
+    <h3>4. Update an Existing Product</h3>
+
+    <p>
+      <strong>Endpoint:</strong> <code>/products/{id}</code><br />
+      <strong>Method:</strong> <code>PUT</code><br />
+      <strong>Description:</strong> Updates an existing product.
+    </p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code>id</code> (string, required): The ID of the product.</li>
+    </ul>
+
+    <p><strong>Request Body:</strong></p>
+
+    <pre><code>{
+  "title": "Updated Product",
+  "category": "women",
+  "old_price": 60.0,
+  "new_price": 55.0
+}
+</code></pre>
+
+    <p><strong>Response:</strong></p>
+
+    <pre><code>{
+  "id": "3",
+  "title": "Updated Product",
+  "category": "women",
+  "old_price": 60.0,
+  "new_price": 55.0,
+  "message": "Product updated successfully"
+}
+</code></pre>
+
+    <h3>5. Delete a Product</h3>
+
+    <p>
+      <strong>Endpoint:</strong> <code>/products/{id}</code><br />
+      <strong>Method:</strong> <code>DELETE</code><br />
+      <strong>Description:</strong> Deletes a product by its ID.
+    </p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code>id</code> (string, required): The ID of the product.</li>
+    </ul>
+
+    <p><strong>Response:</strong></p>
+
+    <pre><code>{
+  "id": "3",
+  "message": "Product deleted successfully"
+}
+</code></pre>
+
+    <h2>Error Responses</h2>
+
+    <p><strong>4xx Client Errors:</strong></p>
+
+    <ul>
+      <li>
+        <code>400 Bad Request</code>: The request could not be understood or was
+        missing required parameters.
+      </li>
+      <li>
+        <code>404 Not Found</code>: The requested resource could not be found.
+      </li>
+      <li>
+        <code>422 Unprocessable Entity</code>: Validation failed for the request
+        data.
+      </li>
+    </ul>
+
+    <p><strong>5xx Server Errors:</strong></p>
+
+    <ul>
+      <li>
+        <code>500 Internal Server Error</code>: An error occurred on the server.
+      </li>
+    </ul>
+
+    <h2>Example Requests</h2>
+
+    <h3>List All Products</h3>
+
+    <pre><code>curl -X GET http://localhost:3000/api/products
+</code></pre>
+
+    <h3>Get Product by ID</h3>
+
+    <pre><code>curl -X GET http://localhost:3000/api/products/1
+</code></pre>
+
+    <h3>Create a New Product</h3>
+
+    <pre><code>curl -X POST http://localhost:3000/api/products -H "Content-Type: application/json" -d '{
+  "title": "New Product",
+  "category": "men",
+  "old_price": 50.00,
+  "new_price": 45.00
+}'
+</code></pre>
+
+    <h3>Update an Existing Product</h3>
+
+    <pre><code>curl -X PUT http://localhost:3000/api/products/3 -H "Content-Type: application/json" -d '{
+  "title": "Updated Product",
+  "category": "women",
+  "old_price": 60.00,
+  "new_price": 55.00
+}'
+</code></pre>
+
+    <h3>Delete a Product</h3>
+
+    <pre><code>curl -X DELETE http://localhost:3000/api/products/3
+</code></pre>
+  </body>
+</html>
