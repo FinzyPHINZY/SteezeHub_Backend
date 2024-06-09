@@ -6,6 +6,10 @@ const productController = require("../controllers/productController");
 // Routes    http://localhost:3000/product/
 router.get("/", productController.getProducts);
 
+// Desc      Fetch new Products
+// Routes    http://localhost:3000/product/newCollections
+router.get("/newcollections", productController.getNewCollections);
+
 // Desc      Add Product
 // Routes    http://localhost:3000/product/addProduct
 router.post("/addProduct", productController.addProduct);

@@ -12,6 +12,17 @@ module.exports = {
     });
   },
 
+  getNewCollections: async (req, res) => {
+    let products = await Product.find();
+
+    let newCollections = products.slice(1).slice(-8);
+
+    res.json({
+      success: true,
+      data: newCollections,
+    });
+  },
+
   addProduct: async (req, res) => {
     // const result = await cloudinary.uploader.upload(req.file.path);
 
