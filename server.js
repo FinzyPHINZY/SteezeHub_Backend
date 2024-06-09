@@ -7,7 +7,6 @@ const connectDB = require("./config/database");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const productRoutes = require("./routes/productRoutes");
-const { callbackify } = require("util");
 const PORT = process.env.PORT;
 
 const app = express();
