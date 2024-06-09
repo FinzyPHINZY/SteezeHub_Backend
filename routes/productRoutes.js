@@ -10,6 +10,10 @@ router.get("/", productController.getProducts);
 // Routes    http://localhost:3000/product/newCollections
 router.get("/newcollections", productController.getNewCollections);
 
+// Desc      Fetch Products that are popular with women
+// Routes    http://localhost:3000/product/popularWomen
+router.get("/popularwomen", productController.popularInWomen);
+
 // Desc      Add Product
 // Routes    http://localhost:3000/product/addProduct
 router.post("/addProduct", productController.addProduct);

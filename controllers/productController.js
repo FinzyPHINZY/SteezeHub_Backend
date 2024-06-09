@@ -23,6 +23,16 @@ module.exports = {
     });
   },
 
+  popularInWomen: async (req, res) => {
+    let products = await Product.find({ category: "women" });
+
+    let popularInWomen = products.slice(0, 4);
+    res.json({
+      success: true,
+      data: popularInWomen,
+    });
+  },
+
   addProduct: async (req, res) => {
     // const result = await cloudinary.uploader.upload(req.file.path);
 
