@@ -7,7 +7,7 @@ const connectDB = require("./config/database");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const productRoutes = require("./routes/productRoutes");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -15,25 +15,13 @@ const app = express();
 connectDB();
 
 app.set("view engine", "ejs");
+app.set("trust proxy", true);
 
 // List of allowed origins
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+// const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
 
 // Middlewares
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
