@@ -17,9 +17,6 @@ connectDB();
 app.set("view engine", "ejs");
 app.set("trust proxy", true);
 
-// List of allowed origins
-// const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-
 // Middlewares
 app.use(cors());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
