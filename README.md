@@ -1,196 +1,213 @@
-### SteezeHub Backend API Documentation
+# Steezehub Backend
 
-#### Base URL
+## Description
 
-```
-http://localhost:3000/api
-```
+Steezehub is an online store that handles user authentication, cart operations, product uploads by admins, and fetches available products from the database. The backend is built using Node.js, Express, and MongoDB, following the MVC architecture.
 
-### Endpoints
+The frontend code for Steezehub can be found [here](https://github.com/FinzyPHINZY/SteezeHub).
 
-#### 1. List All Products
+## Installation
 
-**Endpoint:** `/products`  
-**Method:** `GET`  
-**Description:** Retrieves a list of all products.
+### Prerequisites
 
-**Response:**
+- Node.js
+- npm (Node Package Manager)
+- MongoDB
 
-```json
-[
-  {
-    "id": "1",
-    "title": "Men's Casual Shirt",
-    "category": "men",
-    "old_price": 30.0,
-    "new_price": 25.0
-  },
-  {
-    "id": "2",
-    "title": "Women's Summer Dress",
-    "category": "women",
-    "old_price": 45.0,
-    "new_price": 40.0
-  }
-  // more products
-]
-```
+### Steps
 
-#### 2. Get Product by ID
+1. **Clone the repository:**
 
-**Endpoint:** `/products/{id}`  
-**Method:** `GET`  
-**Description:** Retrieves details of a product by its ID.
+   ```bash
+   git clone https://github.com/FinzyPHINZY/SteezeHub_Backend.git
+   cd SteezeHub_Backend
+   ```
 
-**Parameters:**
+2. **Install dependencies:**
 
-- `id` (string, required): The ID of the product.
+   ```bash
+   npm install
+   ```
 
-**Response:**
+3. **Set up environment variables:**
 
-```json
-{
-  "id": "1",
-  "title": "Men's Casual Shirt",
-  "category": "men",
-  "old_price": 30.0,
-  "new_price": 25.0
-}
+   Create a `.env` file in the `config` directory with the following variables:
+
+   ```plaintext
+   DATABASE_URI=your_mongodb_uri
+   PORT=8080
+   ```
+
+4. **Run the application:**
+
+   ```bash
+   npm start
+   ```
+
+   The server will start running on `http://localhost:8080`.
+
+## Usage
+
+### Running the Server
+
+To start the server, use:
+
+```bash
+npm start
 ```
 
-#### 3. Create a New Product
+### API Endpoints
 
-**Endpoint:** `/products`  
-**Method:** `POST`  
-**Description:** Creates a new product.
+#### Home Routes
 
-**Request Body:**
+- **Homepage**
 
-```json
-{
-  "title": "New Product",
-  "category": "men",
-  "old_price": 50.0,
-  "new_price": 45.0
-}
-```
+  - `GET /`
+  - **Description**: Renders the homepage.
 
-**Response:**
+- **Sign In**
 
-```json
-{
-  "id": "3",
-  "title": "New Product",
-  "category": "men",
-  "old_price": 50.0,
-  "new_price": 45.0,
-  "message": "Product created successfully"
-}
-```
+  - `POST /login`
+  - **Description**: User login.
+  - **Request Body**:
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "userpassword"
+    }
+    ```
+  - **Response**: JSON with authentication token.
 
-#### 4. Update an Existing Product
+- **Sign Up**
+  - `POST /signup`
+  - **Description**: User registration.
+  - **Request Body**:
+    ```json
+    {
+      "name": "User Name",
+      "email": "user@example.com",
+      "password": "userpassword"
+    }
+    ```
+  - **Response**: JSON with authentication token.
 
-**Endpoint:** `/products/{id}`  
-**Method:** `PUT`  
-**Description:** Updates an existing product.
+#### Product Routes
 
-**Parameters:**
+- **Fetch All Products**
 
-- `id` (string, required): The ID of the product.
+  - `GET /product/`
+  - **Description**: Fetches all products from the database.
 
-**Request Body:**
+- **Fetch New Collections**
 
-```json
-{
-  "title": "Updated Product",
-  "category": "women",
-  "old_price": 60.0,
-  "new_price": 55.0
-}
-```
+  - `GET /product/newcollections`
+  - **Description**: Fetches the latest collections.
 
-**Response:**
+- **Fetch Popular Products for Women**
 
-```json
-{
-  "id": "3",
-  "title": "Updated Product",
-  "category": "women",
-  "old_price": 60.0,
-  "new_price": 55.0,
-  "message": "Product updated successfully"
-}
-```
+  - `GET /product/popularwomen`
+  - **Description**: Fetches popular products in the women category.
 
-#### 5. Delete a Product
+- **Get Cart Data**
 
-**Endpoint:** `/products/{id}`  
-**Method:** `DELETE`  
-**Description:** Deletes a product by its ID.
+  - `POST /product/getcart`
+  - **Description**: Retrieves cart data for the logged-in user.
+  - **Request Body**: None
+  - **Response**: JSON with cart data.
 
-**Parameters:**
+- **Add Product to Cart**
 
-- `id` (string, required): The ID of the product.
+  - `POST /product/addtocart`
+  - **Description**: Adds a product to the user's cart.
+  - **Request Body**:
+    ```json
+    {
+      "itemId": "product_id"
+    }
+    ```
+  - **Response**: JSON indicating success.
 
-**Response:**
+- **Remove Product from Cart**
 
-```json
-{
-  "id": "3",
-  "message": "Product deleted successfully"
-}
-```
+  - `POST /product/removefromcart`
+  - **Description**: Removes a product from the user's cart.
+  - **Request Body**:
+    ```json
+    {
+      "itemId": "product_id"
+    }
+    ```
+  - **Response**: JSON indicating success.
 
-### Error Responses
+- **Add Product**
 
-**4xx Client Errors:**
+  - `POST /product/addProduct`
+  - **Description**: Adds a new product to the database (Admin only).
+  - **Request Body**:
+    ```json
+    {
+      "name": "Product Name",
+      "image": "Product Image URL",
+      "category": "Product Category",
+      "new_price": "New Price",
+      "old_price": "Old Price"
+    }
+    ```
+  - **Response**: JSON indicating success.
 
-- `400 Bad Request`: The request could not be understood or was missing required parameters.
-- `404 Not Found`: The requested resource could not be found.
-- `422 Unprocessable Entity`: Validation failed for the request data.
+- **Remove Product**
+  - `POST /product/removeProduct`
+  - **Description**: Removes a product from the database (Admin only).
+  - **Request Body**:
+    ```json
+    {
+      "id": "product_id"
+    }
+    ```
+  - **Response**: JSON indicating success.
 
-**5xx Server Errors:**
+#### Upload Routes
 
-- `500 Internal Server Error`: An error occurred on the server.
+- **Upload Product Image**
+  - `POST /upload`
+  - **Description**: Uploads an image for a product.
+  - **Request**: Multipart/form-data with a single file field named `product`.
+  - **Response**: JSON with the URL of the uploaded image.
 
-### Example Requests
+## Technologies Used
 
-#### List All Products
+- **Node.js**
+- **Express**
+- **MongoDB**
+- **Mongoose**
+- **EJS**
+- **JWT (JsonWebToken)**
+- **Multer**
+- **Cloudinary**
+- **dotenv**
 
-```sh
-curl -X GET http://localhost:3000/api/products
-```
+## Contributing
 
-#### Get Product by ID
+Contributions are welcome! Please follow these steps:
 
-```sh
-curl -X GET http://localhost:3000/api/products/1
-```
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Open a pull request.
 
-#### Create a New Product
+## License
 
-```sh
-curl -X POST http://localhost:3000/api/products -H "Content-Type: application/json" -d '{
-  "title": "New Product",
-  "category": "men",
-  "old_price": 50.00,
-  "new_price": 45.00
-}'
-```
+This project is licensed under the MIT License.
 
-#### Update an Existing Product
+## Contact
 
-```sh
-curl -X PUT http://localhost:3000/api/products/3 -H "Content-Type: application/json" -d '{
-  "title": "Updated Product",
-  "category": "women",
-  "old_price": 60.00,
-  "new_price": 55.00
-}'
-```
+For questions or support, please contact:
 
-#### Delete a Product
+- **Name**: Your Name
+- **Email**: youremail@example.com
 
-```sh
-curl -X DELETE http://localhost:3000/api/products/3
-```
+---
+
+Feel free to customize this README further based on your specific needs and any additional information you may want to include.
